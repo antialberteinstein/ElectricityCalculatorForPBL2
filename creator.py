@@ -9,10 +9,6 @@ import os
 #    the data for my other project.
 #     Thanks.
 
-energy_consumption = dict()
-last_month_energy_consumption = dict()
-current_month_energy_consumption = dict()
-_today = dt.datetime.now()
 
 def count_energy_consumption_per_day_of_a_person() -> float:
     return (10.0 + rd.uniform(0.0, 20.0))/30.0
@@ -25,6 +21,10 @@ def count_energy_consumption_per_day_of_a_room() -> float:
             count_energy_consumption_per_day_of_a_person()
     return energy_consumption_per_day
 
+energy_consumption = dict()
+last_month_energy_consumption = dict()
+current_month_energy_consumption = dict()
+
 for block in ['A', 'B', 'C', 'D', 'E', 'F']:
     for floor in range(1, 6):
         for room in range(1, 25):
@@ -33,50 +33,48 @@ for block in ['A', 'B', 'C', 'D', 'E', 'F']:
             last_month_energy_consumption[room_name] = 0.0
             current_month_energy_consumption[room_name] = 0.0
 
+try:
+    with open('energy_consumption.json', 'r') as f:
+        energy_consumption = json.load(f)
+except FileNotFoundError:
+    pass
+try:
+    with open('last_month_energy_consumption.json', 'r') as f:
+        last_month_energy_consumption = json.load(f)
+except FileNotFoundError:
+    pass
+try:
+    with open('current_month_energy_consumption.json', 'r') as f:
+        current_month_energy_consumption = json.load(f)
+except FileNotFoundError:
+    pass
+
 
 def loop():
     global energy_consumption
-    global _today
-    while True:
-         # Check condition to stop the program.
-        try:
-            with open('stop.np', 'r') as f:
-                str = f.read().lower()
-                print('Found stop.np')
-                if 'welcome to hell' in str:
-                    print('Accepted condition to stop the program.')
-                    print('Goodbye.')
-                    os.remove('stop.np')
-                    print('Removed stop.np')
-                    break
-        except FileNotFoundError:
-            pass
 
-        today = dt.datetime.now()
-        if today.day == _today.day:
-            continue
-        _today = today
+    _today = dt.datetime.now()
 
+    for room in energy_consumption:
+        energy_consumption[room] +=\
+            count_energy_consumption_per_day_of_a_room()
+        print("Energy consumption to", _today, " at room:", room,
+            ":", energy_consumption[room])
+    with open('energy_consumption.json', 'w') as f:
+        json.dump(energy_consumption, f)
+
+    # Create a data for a month.
+    if _today.day == 25:
         for room in energy_consumption:
-            energy_consumption[room] +=\
-                count_energy_consumption_per_day_of_a_room()
-            print("Energy consumption to", _today, " at room:", room,
-                  ":", energy_consumption[room])
-        with open('energy_consumption.json', 'w') as f:
-            json.dump(energy_consumption, f)
-
-        # Create a data for a month.
-        if _today.day == 25:
-            for room in energy_consumption:
-                current_month_energy_consumption[room] = \
-                    energy_consumption[room] - last_month_energy_consumption[room]
-                last_month_energy_consumption[room] = energy_consumption[room]
-                print("Current month energy consumption for room:", room, " : ",
-                      current_month_energy_consumption[room])
-            with open('current_month_energy_consumption.json', 'w') as f:
-                json.dump(current_month_energy_consumption, f)
-            with open('last_month_energy_consumption.json', 'w') as f:
-                json.dump(last_month_energy_consumption, f)
+            current_month_energy_consumption[room] = \
+                energy_consumption[room] - last_month_energy_consumption[room]
+            last_month_energy_consumption[room] = energy_consumption[room]
+            print("Current month energy consumption for room:", room, " : ",
+                current_month_energy_consumption[room])
+        with open('current_month_energy_consumption.json', 'w') as f:
+            json.dump(current_month_energy_consumption, f)
+        with open('last_month_energy_consumption.json', 'w') as f:
+            json.dump(last_month_energy_consumption, f)
 
 if __name__ == '__main__':
     loop()
