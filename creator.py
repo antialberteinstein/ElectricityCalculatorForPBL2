@@ -75,6 +75,8 @@ def loop():
             json.dump(current_month_energy_consumption, f)
         with open('last_month_energy_consumption.json', 'w') as f:
             json.dump(last_month_energy_consumption, f)
+        with open('date.txt', 'w') as f:
+            f.write(str(_today.strftime("%d/%m/%Y")))
 
 if __name__ == '__main__':
     loop()
