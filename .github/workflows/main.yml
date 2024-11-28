@@ -1,0 +1,26 @@
+name: Run Energy Simulation
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - main
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest  # Or another OS like windows-latest or macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Run Script
+        run: |
+          python creator.py
