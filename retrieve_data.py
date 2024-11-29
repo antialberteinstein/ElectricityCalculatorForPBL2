@@ -3,7 +3,7 @@ import os
 import shutil
 
 repo_url = "https://github.com/antialberteinstein/ElectricityCalculatorForPBL2.git"
-destination_folder = "data"
+destination_folder = "res/data"
 
 if os.path.exists(destination_folder):
     shutil.rmtree(destination_folder)

@@ -2,4 +2,5 @@ bin/
 data/
 build/
 dist/
+res/
 *.spec
