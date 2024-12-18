@@ -5,6 +5,8 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allows manual triggering
 
+permissions: read-all
+
 jobs:
   simulate:
     runs-on: ubuntu-latest  # Or another OS like windows-latest or macos-latest
@@ -23,11 +25,9 @@ jobs:
           python creator.py
 
       - name: Push Repo
-        env:
-          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
         run: |
           git config --global user.email "antialberteinstein@gmail.com"
-          git config --global user.name "Nhat Nguyen"
+          git config --global user.name "Github Actions"
           git add .
           git commit -m "Update energy consumption"
-          git push -u https://$ACTIONS_PAT@github.com/antialberteinstein/ElectricityCalculatorForPBL2.git
+          git push -u origin
