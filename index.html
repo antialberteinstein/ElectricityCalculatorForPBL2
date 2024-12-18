@@ -65,9 +65,10 @@
             roomSelect.innerHTML = '';
 
             for (let room = 1; room <= 24; room++) {
+                const roomNumber = String(floor * 100 + room).padStart(3, '0');
                 const option = document.createElement('option');
-                option.value = `${block}${floor}${room}`;
-                option.textContent = `Room ${block}${floor * 100 + room}`;
+                option.value = `${block}${roomNumber}`;
+                option.textContent = `Room ${block}${roomNumber}`;
                 roomSelect.appendChild(option);
             }
         }
