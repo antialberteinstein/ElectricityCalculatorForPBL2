@@ -21,3 +21,11 @@ jobs:
       - name: Run Script
         run: |
           python creator.py
+
+      - name: Push Repo
+        run: |
+          git config --global user.email "antialberteinstein@gmail.com"
+          git config --global user.name "antialberteinstein"
+          git add .
+          git commit -m "Update energy consumption"
+          git push -u origin
