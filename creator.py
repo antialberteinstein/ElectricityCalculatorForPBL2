@@ -25,29 +25,33 @@ energy_consumption = dict()
 last_month_energy_consumption = dict()
 current_month_energy_consumption = dict()
 
-for block in ['A', 'B', 'C', 'D', 'E', 'F']:
-    for floor in range(1, 6):
-        for room in range(1, 25):
-            room_name = block + str(floor * 100 + room)
-            energy_consumption[room_name] = 0.0
-            last_month_energy_consumption[room_name] = 0.0
-            current_month_energy_consumption[room_name] = 0.0
-
 try:
     with open('energy_consumption.json', 'r') as f:
         energy_consumption = json.load(f)
 except FileNotFoundError:
-    pass
+    for block in ['A', 'B', 'C', 'D', 'E', 'F']:
+        for floor in range(1, 6):
+            for room in range(1, 25):
+                room_name = block + str(floor * 100 + room)
+                energy_consumption[room_name] = 0.0
 try:
     with open('last_month_energy_consumption.json', 'r') as f:
         last_month_energy_consumption = json.load(f)
 except FileNotFoundError:
-    pass
+    for block in ['A', 'B', 'C', 'D', 'E', 'F']:
+        for floor in range(1, 6):
+            for room in range(1, 25):
+                room_name = block + str(floor * 100 + room)
+                last_month_energy_consumption[room_name] = 0.0
 try:
     with open('current_month_energy_consumption.json', 'r') as f:
         current_month_energy_consumption = json.load(f)
 except FileNotFoundError:
-    pass
+    for block in ['A', 'B', 'C', 'D', 'E', 'F']:
+        for floor in range(1, 6):
+            for room in range(1, 25):
+                room_name = block + str(floor * 100 + room)
+                current_month_energy_consumption[room_name] = 0.0
 
 
 def loop():
