@@ -5,16 +5,9 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allows manual triggering
 
-permissions: read-all
+permissions: write-all
 
 jobs:
-  update-version:
-    if: >
-      github.event.review.state == 'approved' && 
-          github.event.pull_request.state == 'open'
-    runs-on: windows-latest
-    permissions:
-      contents: write
   simulate:
     runs-on: ubuntu-latest  # Or another OS like windows-latest or macos-latest
 
