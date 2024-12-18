@@ -23,9 +23,11 @@ jobs:
           python creator.py
 
       - name: Push Repo
+        env:
+          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
         run: |
           git config --global user.email "antialberteinstein@gmail.com"
           git config --global user.name "antialberteinstein"
           git add .
           git commit -m "Update energy consumption"
-          git push -u origin
+          git push -u https://$ACTIONS_PAT@github.com/antialberteinstein/ElectricityCalculatorForPBL2.git
